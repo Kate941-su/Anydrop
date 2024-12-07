@@ -28,8 +28,8 @@ class ClientScreenViewModel @Inject constructor(
     private val _ipAddressState = MutableStateFlow<String?>(null)
     val ipAddressState: StateFlow<String?> = _ipAddressState.asStateFlow()
 
-    private val _targetFileState = MutableStateFlow<File?>(null)
-    val targetFileState: StateFlow<File?> = _targetFileState.asStateFlow()
+    private val _targetFilePathState = MutableStateFlow<String?>(null)
+    val targetFilePathState: StateFlow<String?> = _targetFilePathState.asStateFlow()
 
     init {
         val ipAddress = networkService.getIPAddress()
@@ -41,17 +41,19 @@ class ClientScreenViewModel @Inject constructor(
     fun onSendData(serverIp: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                clientSocketManager.sendDataToServer(
-                    serverIp = serverIp,
-                    data = "Hello World",
-                )
+                targetFilePathState.value?.let { filePath ->
+                    clientSocketManager.sendDataToServer(
+                        serverIp = serverIp,
+                        filePath = filePath,
+                    )
+                }
             }
         }
     }
 
     fun onPickedFile(file: File) {
-        _targetFileState.update {
-            file
+        _targetFilePathState.update {
+            file.absolutePath
         }
     }
 

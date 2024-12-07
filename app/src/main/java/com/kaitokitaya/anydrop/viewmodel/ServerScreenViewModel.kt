@@ -55,7 +55,7 @@ class ServerScreenViewModel @Inject constructor(
                     file.apply {
                         MPLog.tag(TAG).d(absolutePath.toString())
                         _filePath.update {
-                            absolutePath.toString()
+                            "${absolutePath} / size: ${file.length()}"
                         }
 
                     }

@@ -19,9 +19,6 @@ class SelectScreenViewModel @Inject constructor() : ViewModel() {
             userType
         }
     }
-
-
-
 }
 
 enum class UserType {

@@ -86,7 +86,7 @@ class ModeSelectScreenViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 clientSocketManager.sendDataToServer(
                     serverIp = serverIp,
-                    data = "Hello World",
+                    filePath = filePath.value,
                 )
             }
         }

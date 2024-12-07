@@ -37,6 +37,7 @@ class ServerSocketManager {
                 // Write the incoming data to the file
                 saveStreamToFile(socket!!.getInputStream(), fileOutputStream)
             }
+            MPLog.tag(TAG).d("File Size: ${file.length()}")
             onRetrieved(file.absolutePath)
         }
     }

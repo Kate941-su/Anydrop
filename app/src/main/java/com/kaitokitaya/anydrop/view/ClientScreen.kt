@@ -31,7 +31,7 @@ fun ClientScreen() {
     val context = LocalContext.current
 
     val ipAddressState = viewModel.ipAddressState.collectAsState()
-    val fileState = viewModel.targetFileState.collectAsState()
+    val fileState = viewModel.targetFilePathState.collectAsState()
 
     val filePickerLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -61,7 +61,7 @@ fun ClientScreen() {
             }
 
         }
-        Text("File path: ${fileState.value?.absolutePath}")
+        Text("File path: ${fileState.value}")
         Button(onClick = {
             viewModel.onSendData(serverIp = "192.168.0.221")
         }) {
