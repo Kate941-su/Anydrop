@@ -41,7 +41,7 @@ fun ModeSelectScreen() {
     val ipAddressState = viewModel.ipAddressState.collectAsState()
     val fileState = viewModel.targetFileState.collectAsState()
     val isServerOn = viewModel.isServerOn.collectAsState()
-    val dataState = viewModel.dataState.collectAsState()
+    val dataState = viewModel.filePath.collectAsState()
 
     val context = LocalContext.current
 
@@ -54,7 +54,7 @@ fun ModeSelectScreen() {
                 // Handle the selected file URI
                 val fileName = getFileNameFromUri(uri = uri, context = context)
                 fileName?.let {
-                    val file = getFileFromUri(context = context, uri = uri,fileName = fileName )
+                    val file = getFileFromUri(context = context, uri = uri, fileName = fileName)
                     viewModel.onPickedFile(file = file)
                 }
             } ?: run {
@@ -78,12 +78,13 @@ fun ModeSelectScreen() {
                 }
 
             }
-            Text("Your ip Address: ${ipAddressState.value} / File path: ${fileState.value?.absolutePath}")
+            Text("Your ip Address: ${ipAddressState.value}")
+            Text("File path: ${fileState.value?.absolutePath}")
             HorizontalDivider()
             Button(onClick = {
-                viewModel.onSendData(serverIp = "192.168.0.7")
+                viewModel.onSendData(serverIp = "192.168.0.221")
             }) {
-                Text("Send (client)")
+                Text("Send to 192.168.0.221 (client)")
             }
             Button(onClick = {
                 if (isServerOn.value) {
@@ -99,6 +100,11 @@ fun ModeSelectScreen() {
                 }
             }
             Text("Receive Data: ${dataState.value}")
+            Button(onClick = {
+                viewModel.onTapReset()
+            }) {
+                Text("Reset Data")
+            }
         }
     }
 }

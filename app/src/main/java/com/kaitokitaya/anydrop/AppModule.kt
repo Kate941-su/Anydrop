@@ -1,7 +1,9 @@
 package com.kaitokitaya.anydrop
 
 import android.content.Context
+import com.kaitokitaya.anydrop.network.ClientSocketManager
 import com.kaitokitaya.anydrop.network.NetworkService
+import com.kaitokitaya.anydrop.network.ServerSocketManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,4 +20,17 @@ object AppModule {
     fun provideNetworkService(@ApplicationContext appContext: Context): NetworkService {
         return NetworkService(context = appContext)
     }
+
+    @Provides
+    @Singleton
+    fun provideServerSocketManager(): ServerSocketManager {
+        return ServerSocketManager()
+    }
+
+    @Provides
+    @Singleton
+    fun provideClientSocketManager(): ClientSocketManager {
+        return ClientSocketManager()
+    }
+
 }

@@ -32,20 +32,12 @@ class ServerSocketManager {
         while (isSocketOpened) {
             socket = serverSocket.accept()
             MPLog.tag(TAG).d("Client connected: ${socket!!.inetAddress}")
-            val file =
-                File(context.cacheDir, "temp_file_${Clock.system(ZoneId.systemDefault()).millis()}")
+            val file = File(context.cacheDir, "temp_file")
             FileOutputStream(file).use { fileOutputStream ->
                 // Write the incoming data to the file
                 saveStreamToFile(socket!!.getInputStream(), fileOutputStream)
             }
-
-            // TODO: Just testing
-            file.useLines { lines ->
-                lines.firstOrNull()?.let {
-                    onRetrieved(it)
-                }
-            }
-
+            onRetrieved(file.absolutePath)
         }
     }
 
