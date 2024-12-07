@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kaitokitaya.anydrop.ui.theme.AnydropTheme
-import com.kaitokitaya.anydrop.view.ModeSelectScreen
 import com.kaitokitaya.anydrop.view.SelectScreen
 import dagger.hilt.android.AndroidEntryPoint
 

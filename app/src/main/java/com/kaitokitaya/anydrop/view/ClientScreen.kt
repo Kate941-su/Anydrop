@@ -20,8 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kaitokitaya.anydrop.R
-import com.kaitokitaya.anydrop.file.FileManger.getFileFromUri
-import com.kaitokitaya.anydrop.file.FileManger.getFileNameFromUri
+import com.kaitokitaya.anydrop.file.FileManager.getFileFromUri
+import com.kaitokitaya.anydrop.file.FileManager.getFileNameFromUri
 import com.kaitokitaya.anydrop.viewmodel.ClientScreenViewModel
 
 @Composable
