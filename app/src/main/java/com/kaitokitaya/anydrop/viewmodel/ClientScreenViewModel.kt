@@ -1,11 +1,9 @@
 package com.kaitokitaya.anydrop.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kaitokitaya.anydrop.network.ClientSocketManager
+import com.kaitokitaya.anydrop.network.socket.ClientSocketManager
 import com.kaitokitaya.anydrop.network.NetworkService
-import com.kaitokitaya.anydrop.network.ServerSocketManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

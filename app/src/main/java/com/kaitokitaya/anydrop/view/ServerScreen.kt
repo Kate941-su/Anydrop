@@ -1,6 +1,5 @@
 package com.kaitokitaya.anydrop.view
 
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,7 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.kaitokitaya.anydrop.network.SocketState
+import com.kaitokitaya.anydrop.network.socket.SocketState
 import com.kaitokitaya.anydrop.viewmodel.ServerScreenViewModel
 
 private const val TAG = "ServerScreen"

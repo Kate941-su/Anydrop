@@ -1,9 +1,9 @@
 package com.kaitokitaya.anydrop
 
 import android.content.Context
-import com.kaitokitaya.anydrop.network.ClientSocketManager
+import com.kaitokitaya.anydrop.network.socket.ClientSocketManager
 import com.kaitokitaya.anydrop.network.NetworkService
-import com.kaitokitaya.anydrop.network.ServerSocketManager
+import com.kaitokitaya.anydrop.network.socket.ServerSocketManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

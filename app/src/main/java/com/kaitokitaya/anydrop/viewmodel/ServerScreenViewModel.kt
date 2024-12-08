@@ -1,14 +1,15 @@
 package com.kaitokitaya.anydrop.viewmodel
 
 import android.content.Context
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kaitokitaya.anydrop.appError.FailedSaveError
 import com.kaitokitaya.anydrop.file.FileManager
-import com.kaitokitaya.anydrop.global.VoidCallback
 import com.kaitokitaya.anydrop.network.NetworkService
-import com.kaitokitaya.anydrop.network.ServerSocketManager
-import com.kaitokitaya.anydrop.network.SocketState
+import com.kaitokitaya.anydrop.network.socket.ServerSocketManager
+import com.kaitokitaya.anydrop.network.socket.SocketOption
+import com.kaitokitaya.anydrop.network.socket.SocketState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,7 +49,7 @@ class ServerScreenViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            serverSocketManager.socketState.collect { state ->
+            serverSocketManager.dSocketState.collect { state ->
                 _serverState.update {
                     state
                 }
@@ -60,7 +61,7 @@ class ServerScreenViewModel @Inject constructor(
         viewModelScope.launch {
             var toastMessage = ""
             withContext(Dispatchers.IO) {
-                serverSocketManager.open()
+                serverSocketManager.open(option = SocketOption.DPlane)
                 var file: File? = null
                 serverSocketManager.retrievingFile(context = context).onSuccess { filePath ->
                     file = File(filePath)
@@ -82,14 +83,6 @@ class ServerScreenViewModel @Inject constructor(
                 }
             }
             onComplete(toastMessage)
-        }
-    }
-
-    fun onServerClose() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                serverSocketManager.close()
-            }
         }
     }
 

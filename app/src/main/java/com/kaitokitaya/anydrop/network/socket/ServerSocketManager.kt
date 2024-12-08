@@ -1,4 +1,4 @@
-package com.kaitokitaya.anydrop.network
+package com.kaitokitaya.anydrop.network.socket
 
 import MPLog
 import android.content.Context
@@ -16,36 +16,26 @@ import java.net.Socket
 
 private const val TAG = "SocketServer"
 
-class ServerSocketManager {
-    private val serverSocket = ServerSocket(ConstantVariable.DATA_PORT)
-    private var socket: Socket? = null
+class ServerSocketManager: SocketManager() {
 
-    private val _socketState = MutableStateFlow<SocketState>(SocketState.CLOSE)
-    val socketState: StateFlow<SocketState> = _socketState.asStateFlow()
+    // C-plane socket
+    private val cServerSocket = ServerSocket(ConstantVariable.COMMUNICATION_PORT)
 
-    fun open() {
-        _socketState.update {
-            SocketState.OPEN
-        }
-    }
+    // D-plane socket
+    private val dServerSocket = ServerSocket(ConstantVariable.DATA_PORT)
 
-    fun close() {
-        _socketState.update {
-            SocketState.CLOSE
-        }
-        socket?.close()
-    }
 
     // TODO: Actually onRetrieve will retrieve File type.
     fun retrievingFile(context: Context): Result<String> {
         try {
-            while (socketState.value == SocketState.OPEN) {
-                socket = serverSocket.accept()
-                MPLog.tag(TAG).d("Client connected: ${socket!!.inetAddress}")
+            open(option = SocketOption.DPlane)
+            while (dSocketState.value == SocketState.OPEN) {
+                dSocket = dServerSocket.accept()
+                MPLog.tag(TAG).d("Client connected: ${dSocket!!.inetAddress}")
                 val file = File(context.cacheDir, "temp_file")
                 FileOutputStream(file).use { fileOutputStream ->
                     // Write the incoming data to the file
-                    saveStreamToFile(socket!!.getInputStream(), fileOutputStream)
+                    saveStreamToFile(dSocket!!.getInputStream(), fileOutputStream)
                 }
                 MPLog.tag(TAG).d("File Size: ${file.length()}")
                 return Result.success(file.absolutePath)
@@ -54,7 +44,7 @@ class ServerSocketManager {
             MPLog.tag(TAG).d("File Size: $e")
             return Result.failure(FailedSaveError())
         } finally {
-            close()
+            close(option = SocketOption.DPlane)
         }
         return Result.failure(FailedSaveError())
     }
@@ -68,9 +58,4 @@ class ServerSocketManager {
         }
         fileOutputStream.flush()
     }
-}
-
-enum class SocketState {
-    OPEN,
-    CLOSE
 }
